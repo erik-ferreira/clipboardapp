@@ -11,6 +11,12 @@ export const styles = StyleSheet.create({
     backgroundColor: "#121214",
   },
 
+  img: {
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+  },
+
   input: {
     width: "100%",
     height: 56,
