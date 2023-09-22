@@ -1,20 +1,40 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import * as Clipboard from "expo-clipboard"
+import { MaterialIcons } from "@expo/vector-icons"
+import { TextInput, View, TouchableOpacity, Alert } from "react-native"
+
+import { styles } from "./styles"
+import { useState } from "react"
 
 export default function App() {
+  const [information, setInformation] = useState("")
+
+  async function handleCopyToClipboard() {
+    await Clipboard.setStringAsync(information)
+  }
+
+  async function handleGetToClipboard() {
+    const response = await Clipboard.getStringAsync()
+
+    Alert.alert(response)
+  }
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+      <TextInput
+        style={styles.input}
+        value={information}
+        onChangeText={setInformation}
+      />
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+      <View style={styles.options}>
+        <TouchableOpacity style={styles.button} onPress={handleCopyToClipboard}>
+          <MaterialIcons name="content-copy" size={24} color="#FFF" />
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.button} onPress={handleGetToClipboard}>
+          <MaterialIcons name="content-paste" size={24} color="#FFF" />
+        </TouchableOpacity>
+      </View>
+    </View>
+  )
+}
