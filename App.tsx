@@ -1,9 +1,9 @@
+import { useState, useEffect } from "react"
 import * as Clipboard from "expo-clipboard"
 import { MaterialIcons } from "@expo/vector-icons"
 import { TextInput, View, TouchableOpacity, Alert } from "react-native"
 
 import { styles } from "./styles"
-import { useState } from "react"
 
 export default function App() {
   const [information, setInformation] = useState("")
@@ -17,6 +17,14 @@ export default function App() {
 
     Alert.alert(response)
   }
+
+  useEffect(() => {
+    const subscription = Clipboard.addClipboardListener(() => {
+      Alert.alert("Copiado")
+    })
+
+    return () => Clipboard.removeClipboardListener(subscription)
+  }, [])
 
   return (
     <View style={styles.container}>
